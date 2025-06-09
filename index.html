@@ -96,10 +96,9 @@
 			cursor: not-allowed;
 		}
 
-		.back-button {
+		.icon-button {
 			position: absolute;
 			top: 28px;
-			left: 18px;
 			background: rgba(249, 246, 242, 0.7);
 			backdrop-filter: blur(5px);
 			border: 1px solid rgba(61, 53, 46, 0.1);
@@ -114,32 +113,21 @@
 			z-index: 50;
 		}
 
-		.back-button:hover {
+		.icon-button:hover {
 			transform: scale(1.1);
 			background: rgba(255, 255, 255, 0.9);
 		}
 
+		.back-button {
+			left: 18px;
+		}
+
 		.restart-button {
-			position: absolute;
-			top: 20px;
-			right: 20px;
-			background: rgba(249, 246, 242, 0.8);
-			backdrop-filter: blur(5px);
-			border: 1px solid rgba(61, 53, 46, 0.1);
-			border-radius: 50%;
-			width: 40px;
-			height: 40px;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			cursor: pointer;
-			transition: all 0.2s ease;
-			z-index: 50;
+			right: 68px;
 		}
 
 		.restart-button:hover {
 			transform: scale(1.1) rotate(45deg);
-			background: rgba(255, 255, 255, 0.9);
 		}
 
 		/* --- Schermata 2: ATTO I - ISPIRAZIONE --- */
@@ -164,7 +152,6 @@
 			text-align: center;
 			padding: 8px;
 			will-change: transform, box-shadow, opacity;
-			/* MODIFICA: Aggiunta animazione base */
 			animation: float 4s ease-in-out infinite;
 		}
 
@@ -175,7 +162,6 @@
 		.inspiration-card:hover:not(.selected) {
 			transform: translateY(-4px) scale(1.03);
 			box-shadow: 0 10px 25px rgba(61, 53, 46, 0.15);
-			/* MODIFICA: Pausa l'animazione al passaggio del mouse per un controllo migliore */
 			animation-play-state: paused;
 		}
 
@@ -423,7 +409,39 @@
 			transform: translateX(-1px);
 		}
 
-		/* MODIFICA: Aggiunta animazione @keyframes per l'effetto fluttuante */
+		.reward-card {
+			background-color: white;
+			border-radius: 18px;
+			padding: 16px;
+			border: 1px solid #EAE3DA;
+			display: flex;
+			align-items: center;
+			gap: 16px;
+			transition: all 0.3s ease;
+		}
+
+		.reward-card.disabled {
+			background-color: #f7f4f0;
+			opacity: 0.6;
+			cursor: not-allowed;
+		}
+
+		.redeem-button {
+			background: #3D352E;
+			color: white;
+			border-radius: 9999px;
+			padding: 0.5rem 1rem;
+			font-weight: 600;
+			font-size: 0.875rem;
+			transition: all 0.2s ease;
+			border: none;
+		}
+
+		.redeem-button:disabled {
+			background: #D3C5B5;
+			color: #8a817a;
+		}
+
 		@keyframes float {
 			0% {
 				transform: translateY(0px);
@@ -438,7 +456,6 @@
 			}
 		}
 
-		/* MODIFICA: Aggiunta di ritardi diversi per un'animazione asincrona e naturale */
 		#atelier-space .inspiration-card:nth-child(1) {
 			animation-delay: 0s;
 		}
@@ -496,8 +513,8 @@
 				</div>
 
 				<div id="screen-2" class="screen-content p-7">
-					<div class="back-button" data-target="1"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"
-							xmlns="http://www.w3.org/2000/svg">
+					<div class="icon-button back-button" data-target="1"><svg width="20" height="20" viewBox="0 0 24 24"
+							fill="none" xmlns="http://www.w3.org/2000/svg">
 							<path d="M15.41 7.41L14 6L8 12L14 18L15.41 16.59L10.83 12L15.41 7.41Z" fill="#3D352E" />
 						</svg></div>
 					<div class="text-center">
@@ -514,8 +531,8 @@
 				</div>
 
 				<div id="screen-3" class="screen-content p-7">
-					<div class="back-button" data-target="2"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"
-							xmlns="http://www.w3.org/2000/svg">
+					<div class="icon-button back-button" data-target="2"><svg width="20" height="20" viewBox="0 0 24 24"
+							fill="none" xmlns="http://www.w3.org/2000/svg">
 							<path d="M15.41 7.41L14 6L8 12L14 18L15.41 16.59L10.83 12L15.41 7.41Z" fill="#3D352E" />
 						</svg></div>
 					<div class="text-center">
@@ -565,20 +582,23 @@
 
 				<div id="screen-5" class="screen-content p-0">
 					<div id="map-container">
-						<div class="back-button" data-target="3">
+						<div class="icon-button back-button" data-target="3">
 							<svg width="20" height="20" viewBox="0 0 24 24" fill="none"
 								xmlns="http://www.w3.org/2000/svg">
 								<path d="M15.41 7.41L14 6L8 12L14 18L15.41 16.59L10.83 12L15.41 7.41Z" fill="#3D352E" />
 							</svg>
 						</div>
-						<div class="restart-button" data-target="1">
+						<button class="icon-button rewards-button" data-target="6" style="right: 18px;">
+							<span class="text-2xl">🏆</span>
+						</button>
+						<button class="icon-button restart-button" data-target="1">
 							<svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
 									d="M4 4v5h5M20 20v-5h-5" />
 								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
 									d="M4 9a9 9 0 0114.12-6.34M20 15a9 9 0 01-14.12 6.34" />
 							</svg>
-						</div>
+						</button>
 						<img id="map-image" src="vinci_map.png" alt="Mappa delle Terre di Leonardo">
 						<div id="map-markers">
 						</div>
@@ -591,6 +611,22 @@
 						</div>
 					</div>
 				</div>
+
+				<div id="screen-6" class="screen-content p-7">
+					<div class="icon-button back-button" data-target="5"><svg width="20" height="20" viewBox="0 0 24 24"
+							fill="none" xmlns="http://www.w3.org/2000/svg">
+							<path d="M15.41 7.41L14 6L8 12L14 18L15.41 16.59L10.83 12L15.41 7.41Z" fill="#3D352E" />
+						</svg></div>
+					<div class="text-center">
+						<h1 class="font-serif-display text-3xl font-extrabold">Bottega dei Premi</h1>
+						<div id="total-rewards-display"
+							class="mt-2 text-lg font-semibold bg-green-100 text-green-800 rounded-full inline-block px-4 py-1">
+						</div>
+					</div>
+					<div id="rewards-list-container" class="flex-grow overflow-y-auto mt-6 space-y-3 pr-2 -mr-4 py-2">
+					</div>
+				</div>
+
 			</div>
 		</div>
 	</div>
@@ -621,6 +657,14 @@
 				{ stop: 4, title: 'Casa Natale (Anchiano)', reward: 25, transport: null, img: 'casa-natale-di-leonardo-da-vinci.jpg', desc: 'Concludi il percorso tra gli ulivi di Anchiano, nella modesta dimora dove tutto ebbe inizio.', mapPos: { top: '20%', left: '25%' } }
 			];
 
+			/* MODIFICA: Aumentato il costo dei premi */
+			const rewardsData = [
+				{ id: 'coffee', title: 'Caffè Leonardiano', description: 'Un caffè offerto dalla torrefazione locale.', icon: '☕️', cost: 30 },
+				{ id: 'postcard', title: 'Cartolina d\'Artista', description: 'Una stampa artistica di un paesaggio locale.', icon: '🖼️', cost: 50 },
+				{ id: 'wine_tasting', title: 'Calice di Chianti', description: 'Una degustazione di vino presso una cantina convenzionata.', icon: '🍷', cost: 80 },
+				{ id: 'book', title: 'Diario di Viaggio', description: 'Un piccolo taccuino in pelle per i tuoi appunti.', icon: '📖', cost: 120 },
+			];
+
 			const loadingTexts = ["Preparo la tavolozza...", "Schiarisco le idee...", "Cerco la giusta composizione...", "Aggiungo un tocco di genio..."];
 
 			let state = { currentStep: 1, selectedInspirations: [], selectedLogistics: {}, loadingTextInterval: null };
@@ -635,6 +679,8 @@
 				itineraryList: document.getElementById('itinerary-list'),
 				mapMarkers: document.getElementById('map-markers'),
 				mapImage: document.getElementById('map-image'),
+				rewardsListContainer: document.getElementById('rewards-list-container'),
+				totalRewardsDisplay: document.getElementById('total-rewards-display'),
 			};
 
 			const changeScreen = (nextStep) => {
@@ -716,6 +762,28 @@
                 `).join('');
 			};
 
+			const renderRewards = (totalPoints) => {
+				dom.totalRewardsDisplay.innerHTML = `Il tuo saldo: ${totalPoints} 🌿`;
+
+				dom.rewardsListContainer.innerHTML = rewardsData.map(reward => {
+					const canAfford = totalPoints >= reward.cost;
+					return `
+                        <div class="reward-card ${!canAfford ? 'disabled' : ''}">
+                            <div class="text-4xl">${reward.icon}</div>
+                            <div class="flex-grow">
+                                <h4 class="font-bold">${reward.title}</h4>
+                                <p class="text-sm text-gray-600">${reward.description}</p>
+                            </div>
+                            <div class="text-right">
+                                <div class="font-bold text-lg">${reward.cost} 🌿</div>
+                                <button class="redeem-button" ${!canAfford ? 'disabled' : ''}>Riscatta</button>
+                            </div>
+                        </div>
+                    `;
+				}).join('');
+			};
+
+
 			const updateAtelierUI = () => {
 				const count = state.selectedInspirations.length;
 				const canProceed = count >= 3 && count <= 5;
@@ -748,10 +816,8 @@
 			document.getElementById('create-btn').addEventListener('click', startCreationProcess);
 
 			dom.screenContainer.addEventListener('click', (e) => {
-				const btn = e.target.closest('.back-button, .restart-button');
+				const btn = e.target.closest('.icon-button');
 				if (btn) {
-					if (btn.classList.contains('restart-button') && state.currentStep === 5) {
-					}
 					changeScreen(parseInt(btn.dataset.target, 10));
 				}
 			});
@@ -806,9 +872,11 @@
 				}
 			});
 
+			const totalRewards = itineraryData.reduce((acc, item) => acc + item.reward, 0);
 			renderAtelier();
 			renderLogistics();
 			renderItinerary();
+			renderRewards(totalRewards);
 		});
 	</script>
 </body>
