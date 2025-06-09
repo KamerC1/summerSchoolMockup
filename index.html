@@ -409,6 +409,7 @@
 			transform: translateX(-1px);
 		}
 
+		/* NUOVO: Stili per la schermata dei premi e la card donazione */
 		.reward-card {
 			background-color: white;
 			border-radius: 18px;
@@ -441,6 +442,40 @@
 			background: #D3C5B5;
 			color: #8a817a;
 		}
+
+		.donation-card {
+			background-color: #FEF3C7;
+			/* Giallo paglierino */
+			border: 2px dashed #FBBF24;
+			/* Oro */
+			border-radius: 18px;
+			padding: 16px;
+			text-align: center;
+		}
+
+		.donation-button {
+			background: #FBBF24;
+			color: #92400E;
+			border: none;
+			border-radius: 8px;
+			padding: 0.5rem 0.75rem;
+			font-weight: 700;
+			font-size: 0.875rem;
+			transition: all 0.2s ease;
+		}
+
+		.donation-button:hover:not(:disabled) {
+			background: #F59E0B;
+			transform: scale(1.05);
+		}
+
+		.donation-button:disabled {
+			background: #FEF3C7;
+			color: #D97706;
+			opacity: 0.7;
+			cursor: not-allowed;
+		}
+
 
 		@keyframes float {
 			0% {
@@ -623,7 +658,7 @@
 							class="mt-2 text-lg font-semibold bg-green-100 text-green-800 rounded-full inline-block px-4 py-1">
 						</div>
 					</div>
-					<div id="rewards-list-container" class="flex-grow overflow-y-auto mt-6 space-y-3 pr-2 -mr-4 py-2">
+					<div id="rewards-list-container" class="flex-grow overflow-y-auto mt-6 space-y-4 pr-2 -mr-4 py-2">
 					</div>
 				</div>
 
@@ -657,7 +692,6 @@
 				{ stop: 4, title: 'Casa Natale (Anchiano)', reward: 25, transport: null, img: 'casa-natale-di-leonardo-da-vinci.jpg', desc: 'Concludi il percorso tra gli ulivi di Anchiano, nella modesta dimora dove tutto ebbe inizio.', mapPos: { top: '20%', left: '25%' } }
 			];
 
-			/* MODIFICA: Aumentato il costo dei premi */
 			const rewardsData = [
 				{ id: 'coffee', title: 'Caffè Leonardiano', description: 'Un caffè offerto dalla torrefazione locale.', icon: '☕️', cost: 30 },
 				{ id: 'postcard', title: 'Cartolina d\'Artista', description: 'Una stampa artistica di un paesaggio locale.', icon: '🖼️', cost: 50 },
@@ -762,10 +796,26 @@
                 `).join('');
 			};
 
+			/* NUOVO: Logica di rendering aggiornata per includere la card donazione */
 			const renderRewards = (totalPoints) => {
 				dom.totalRewardsDisplay.innerHTML = `Il tuo saldo: ${totalPoints} 🌿`;
 
-				dom.rewardsListContainer.innerHTML = rewardsData.map(reward => {
+				// Card speciale per la donazione
+				const donationCardHTML = `
+                    <div class="donation-card">
+                        <div class="text-5xl mb-2">🐝</div>
+                        <h4 class="font-bold text-lg text-yellow-900">Salva le Api</h4>
+                        <p class="text-sm text-yellow-800 mb-4">Un piccolo gesto per proteggere questi preziosi impollinatori.</p>
+                        <div class="flex justify-center items-center gap-2">
+                            <button class="donation-button" data-amount="10" ${totalPoints < 10 ? 'disabled' : ''}>Dona 10 🌿</button>
+                            <button class="donation-button" data-amount="25" ${totalPoints < 25 ? 'disabled' : ''}>Dona 25 🌿</button>
+                            <button class="donation-button" data-amount="${totalPoints}" ${totalPoints === 0 ? 'disabled' : ''}>Dona tutto</button>
+                        </div>
+                    </div>
+                `;
+
+				// Card per i premi standard
+				const standardRewardsHTML = rewardsData.map(reward => {
 					const canAfford = totalPoints >= reward.cost;
 					return `
                         <div class="reward-card ${!canAfford ? 'disabled' : ''}">
@@ -781,6 +831,8 @@
                         </div>
                     `;
 				}).join('');
+
+				dom.rewardsListContainer.innerHTML = donationCardHTML + standardRewardsHTML;
 			};
 
 
@@ -869,6 +921,16 @@
 				} else {
 					activeCard = null;
 					dom.mapMarkers.querySelector(`.map-marker.highlighted`)?.classList.remove('highlighted');
+				}
+			});
+
+			/* NUOVO: Aggiunto event listener per i pulsanti di donazione */
+			dom.rewardsListContainer.addEventListener('click', (e) => {
+				if (e.target.classList.contains('donation-button')) {
+					const amount = e.target.dataset.amount;
+					alert(`Grazie! Hai donato ${amount} punti per salvare le api! 🐝`);
+					// Qui andrebbe la logica per aggiornare i punti dell'utente,
+					// per ora un semplice alert dimostra la funzionalità.
 				}
 			});
 
